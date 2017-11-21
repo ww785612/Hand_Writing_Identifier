@@ -73,7 +73,13 @@ def getPatchFeatureVal(image, startRowPatchGrid, startColPatchGrid):
     startRow = startRowPatchGrid*patchRowSize
     startCol = startColPatchGrid*patchColSize
     assert(startRow+patchRowSize<=rowSize and startCol+patchColSize<=columnSize)
-    featureValue = char2Val(image[startRow][startCol]) * 8 + char2Val(image[startRow][startCol + 1]) * 4 + char2Val(image[startRow+1][startCol]) * 2 + char2Val(image[startRow+1][startCol+1]) * 1
+    featureValue = 0
+    multiplyer = 1 # 2^n where n is the number of iteration
+    for patchRow in range(startRow, startRow+patchRowSize):
+        for patchCol in range(startCol,startCol+patchColSize):
+            featureValue += char2Val(image[patchRow][patchCol]) * multiplyer
+            multiplyer = multiplyer * 2
+
     return featureValue
 
 def getTrainLabel():
